@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - plain_notification_token (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `.symlinks/flutter/ios`)
+  - plain_notification_token (from `.symlinks/plugins/plain_notification_token/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: ".symlinks/flutter/ios"
+  plain_notification_token:
+    :path: ".symlinks/plugins/plain_notification_token/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  plain_notification_token: b36467dc91939a7b6754267c701bbaca14996ee1
+
+PODFILE CHECKSUM: aff02bfeed411c636180d6812254b2daeea14d09
+
+COCOAPODS: 1.6.1
