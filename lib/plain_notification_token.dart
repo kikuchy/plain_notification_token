@@ -45,7 +45,8 @@ class PlainNotificationToken {
   /// On iOS, prompts the user for notification permissions the first time it is called.
   ///
   /// Does nothing on Android.
-  void requestPermission([IosNotificationSettings settings = const IosNotificationSettings()]) {
+  void requestPermission(
+      [IosNotificationSettings settings = const IosNotificationSettings()]) {
     if (_platform.isAndroid) return;
 
     _channel.invokeMethod("requestPermission", settings.toMap());
