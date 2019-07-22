@@ -38,7 +38,7 @@ To get token, call `getToken()`:
 
 ```dart
 // (iOS Only) Need requesting permission of Push Notification.
-if (Platform.isIos) {
+if (Platform.isIOS) {
   plainNotificationToken.requestPermission();
   
   // If you want to wait until Permission dialog close,
