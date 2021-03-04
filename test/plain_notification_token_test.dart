@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:plain_notification_token/plain_notification_token.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   const MethodChannel channel = MethodChannel('plain_notification_token');
 
   group("PlainNotificationToken", () {
