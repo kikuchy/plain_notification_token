@@ -8,7 +8,7 @@ import 'package:platform/platform.dart';
 ///
 /// This plugin is aiming to compatible with [firebase_messaging](https://pub.dev/packages/firebase_messaging) API.
 class PlainNotificationToken {
-  static PlainNotificationToken _instance;
+  static PlainNotificationToken? _instance;
   final MethodChannel _channel;
   final Platform _platform;
 
@@ -27,11 +27,15 @@ class PlainNotificationToken {
   final StreamController<String> _tokenStreamController =
       StreamController<String>.broadcast();
 
-  /// Fires when a new token is generated.
+  /// Fires when a new the APNs (in iOS)/FCM (in Android) token is generated.
   Stream<String> get onTokenRefresh => _tokenStreamController.stream;
 
   /// Returns the APNs (in iOS)/FCM (in Android) token.
-  Future<String> getToken() => _channel.invokeMethod<String>('getToken');
+  /// If the token is not ready, it returns null on iOS.
+  ///
+  /// If you want to get latest token, please consider to use [onTokenRefresh]
+  /// instead of this method.
+  Future<String?> getToken() => _channel.invokeMethod<String>('getToken');
 
   final StreamController<IosNotificationSettings> _iosSettingsStreamController =
       StreamController<IosNotificationSettings>.broadcast();
@@ -72,17 +76,20 @@ class IosNotificationSettings {
   final bool badge;
   final bool sound;
 
-  const IosNotificationSettings(
-      {this.alert = true, this.badge = true, this.sound = true});
+  const IosNotificationSettings({
+    this.alert = true,
+    this.badge = true,
+    this.sound = true,
+  });
 
   IosNotificationSettings._fromMap(Map<String, bool> settings)
-      : sound = settings['sound'],
-        alert = settings['alert'],
-        badge = settings['badge'];
+      : sound = settings['sound']!,
+        alert = settings['alert']!,
+        badge = settings['badge']!;
 
   @visibleForTesting
-  Map<String, dynamic> toMap() {
-    return <String, bool>{'sound': sound, 'alert': alert, 'badge': badge};
+  Map<String, dynamic?> toMap() {
+    return <String, bool?>{'sound': sound, 'alert': alert, 'badge': badge};
   }
 
   @override
