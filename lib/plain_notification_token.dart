@@ -8,7 +8,7 @@ import 'package:platform/platform.dart';
 ///
 /// This plugin is aiming to compatible with [firebase_messaging](https://pub.dev/packages/firebase_messaging) API.
 class PlainNotificationToken {
-  static PlainNotificationToken _instance;
+  static PlainNotificationToken? _instance;
   final MethodChannel _channel;
   final Platform _platform;
 
@@ -24,14 +24,14 @@ class PlainNotificationToken {
           const MethodChannel('plain_notification_token'),
           const LocalPlatform()));
 
-  final StreamController<String> _tokenStreamController =
-      StreamController<String>.broadcast();
+  final StreamController<String?> _tokenStreamController =
+      StreamController<String?>.broadcast();
 
   /// Fires when a new token is generated.
-  Stream<String> get onTokenRefresh => _tokenStreamController.stream;
+  Stream<String?> get onTokenRefresh => _tokenStreamController.stream;
 
   /// Returns the APNs (in iOS)/FCM (in Android) token.
-  Future<String> getToken() => _channel.invokeMethod<String>('getToken');
+  Future<String?> getToken() => _channel.invokeMethod<String>('getToken');
 
   final StreamController<IosNotificationSettings> _iosSettingsStreamController =
       StreamController<IosNotificationSettings>.broadcast();
@@ -55,7 +55,7 @@ class PlainNotificationToken {
   Future<dynamic> _handleMethod(MethodCall call) async {
     switch (call.method) {
       case "onToken":
-        final String token = call.arguments;
+        final String? token = call.arguments;
         _tokenStreamController.add(token);
         return null;
       case "onIosSettingsRegistered":
@@ -76,9 +76,9 @@ class IosNotificationSettings {
       {this.alert = true, this.badge = true, this.sound = true});
 
   IosNotificationSettings._fromMap(Map<String, bool> settings)
-      : sound = settings['sound'],
-        alert = settings['alert'],
-        badge = settings['badge'];
+      : sound = settings['sound'] ?? false,
+        alert = settings['alert'] ?? false,
+        badge = settings['badge'] ?? false;
 
   @visibleForTesting
   Map<String, dynamic> toMap() {
