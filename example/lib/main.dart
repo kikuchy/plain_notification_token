@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
               Text('token: $_pushToken\n'),
               Text("settings: $_settings"),
               Builder(
-                builder: (context) => RaisedButton(
+                builder: (context) => ElevatedButton(
                   child: Text("Request permission"),
                   onPressed: () {
                     PlainNotificationToken().requestPermission();
@@ -75,7 +75,7 @@ class _MyAppState extends State<MyApp> {
                   } on PlatformException {
                     token = 'Failed to get platform version.';
                   }
-                  Scaffold.of(context)
+                  ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: Text(token ?? "(no token yet)")));
                 },
               ),
