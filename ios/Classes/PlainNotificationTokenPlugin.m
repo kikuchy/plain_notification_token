@@ -72,6 +72,10 @@
                     [[UIApplication sharedApplication] registerForRemoteNotifications];
                 });
                 [self->_channel invokeMethod:@"onIosSettingsRegistered" arguments:settings];
+            } else {
+                NSNumber* falseNumber = [NSNumber numberWithBool: NO];
+                NSDictionary<NSString*, NSNumber*> *empty = [NSDictionary dictionaryWithObjectsAndKeys: falseNumber, @"badge", falseNumber, @"alert", falseNumber, @"sound", nil];
+                [self->_channel invokeMethod:@"onIosSettingsRegistered" arguments:empty];
             }
         }];
     }
