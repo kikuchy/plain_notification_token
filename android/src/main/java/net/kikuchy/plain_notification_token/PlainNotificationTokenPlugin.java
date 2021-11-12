@@ -7,6 +7,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
+import io.flutter.plugin.common.BinaryMessenger;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -22,13 +24,35 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 /**
  * PlainNotificationTokenPlugin
  */
-public class PlainNotificationTokenPlugin extends BroadcastReceiver implements MethodCallHandler {
+public class PlainNotificationTokenPlugin extends BroadcastReceiver implements MethodCallHandler, FlutterPlugin {
+    private Context context;
+    private MethodChannel methodChannel;
+    
     /**
      * Plugin registration.
      */
+    @SuppressWarnings("deprecation")
     public static void registerWith(Registrar registrar) {
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), "plain_notification_token");
-        channel.setMethodCallHandler(new PlainNotificationTokenPlugin(channel, registrar));
+        new FlutterRingtonePlayerPlugin().onAttachedToEngine(registrar.context(), registrar.messenger());
+    }
+
+    @Override
+    public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
+        onAttachedToEngine(binding.getApplicationContext(), binding.getBinaryMessenger());
+    }
+
+    private void onAttachedToEngine(Context applicationContext, BinaryMessenger messenger) {
+        this.context = applicationContext;
+       
+        methodChannel = new MethodChannel(messenger, "plain_notification_token");
+        methodChannel.setMethodCallHandler(this);
+    }
+
+    @Override
+    public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+        context = null;
+        methodChannel.setMethodCallHandler(null);
+        methodChannel = null;
     }
 
     static final String TAG = PlainNotificationTokenPlugin.class.getSimpleName();
@@ -42,7 +66,7 @@ public class PlainNotificationTokenPlugin extends BroadcastReceiver implements M
     }
 
     @Override
-    public void onMethodCall(final MethodCall call, final Result result) {
+    public void onMethodCall(final NonNull MethodCall call, final NonNull Result result) {
         if (call.method.equals("getToken")) {
             FirebaseInstanceId.getInstance()
                     .getInstanceId()
