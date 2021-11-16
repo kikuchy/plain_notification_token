@@ -28,31 +28,29 @@ public class PlainNotificationTokenPlugin extends BroadcastReceiver implements M
     private Context context;
     private MethodChannel methodChannel;
     
-    /**
-     * Plugin registration.
-     */
-    @SuppressWarnings("deprecation")
+    public PlainNotificationTokenPlugin() {}
+
     public static void registerWith(Registrar registrar) {
-        new FlutterRingtonePlayerPlugin().onAttachedToEngine(registrar.context(), registrar.messenger());
+        new PlainNotificationTokenPlugin().onAttached(registrar.context(), registrar.messenger());
     }
 
     @Override
-    public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
-        onAttachedToEngine(binding.getApplicationContext(), binding.getBinaryMessenger());
-    }
-
-    private void onAttachedToEngine(Context applicationContext, BinaryMessenger messenger) {
-        this.context = applicationContext;
-       
-        methodChannel = new MethodChannel(messenger, "plain_notification_token");
-        methodChannel.setMethodCallHandler(this);
+    public void onAttachedToEngine(FlutterPluginBinding binding) {   
+        onAttached(binding.getApplicationContext(), binding.getBinaryMessenger());
     }
 
     @Override
-    public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+    public void onDetachedFromEngine(FlutterPluginBinding binding) {
         context = null;
         methodChannel.setMethodCallHandler(null);
         methodChannel = null;
+
+    }
+
+    private void onAttached(Context applicationContext, BinaryMessenger messenger) {
+        this.context = applicationContext;
+        this.methodChannel = new MethodChannel(messenger, "plain_notification_token");
+        methodChannel.setMethodCallHandler(this);
     }
 
     static final String TAG = PlainNotificationTokenPlugin.class.getSimpleName();
