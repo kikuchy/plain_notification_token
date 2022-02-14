@@ -13,6 +13,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
+import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
@@ -22,13 +24,33 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 /**
  * PlainNotificationTokenPlugin
  */
-public class PlainNotificationTokenPlugin extends BroadcastReceiver implements MethodCallHandler {
-    /**
-     * Plugin registration.
-     */
+public class PlainNotificationTokenPlugin extends BroadcastReceiver implements FlutterPlugin, MethodCallHandler {
+    private Context context;
+    private MethodChannel methodChannel;
+    
+    public PlainNotificationTokenPlugin() {}
+
     public static void registerWith(Registrar registrar) {
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), "plain_notification_token");
-        channel.setMethodCallHandler(new PlainNotificationTokenPlugin(channel, registrar));
+        new PlainNotificationTokenPlugin().onAttached(registrar.context(), registrar.messenger());
+    }
+
+    @Override
+    public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
+        onAttached(binding.getApplicationContext(), binding.getBinaryMessenger());
+    }
+
+    @Override
+    public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+        context = null;
+        methodChannel.setMethodCallHandler(null);
+        methodChannel = null;
+
+    }
+
+    private void onAttached(Context applicationContext, BinaryMessenger messenger) {
+        this.context = applicationContext;
+        this.methodChannel = new MethodChannel(messenger, "plain_notification_token");
+        methodChannel.setMethodCallHandler(this);
     }
 
     static final String TAG = PlainNotificationTokenPlugin.class.getSimpleName();
@@ -42,7 +64,7 @@ public class PlainNotificationTokenPlugin extends BroadcastReceiver implements M
     }
 
     @Override
-    public void onMethodCall(final MethodCall call, final Result result) {
+    public void onMethodCall(final @NonNull MethodCall call, final @NonNull Result result) {
         if (call.method.equals("getToken")) {
             FirebaseInstanceId.getInstance()
                     .getInstanceId()
