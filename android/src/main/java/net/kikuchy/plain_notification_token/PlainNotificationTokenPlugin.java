@@ -7,14 +7,14 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import io.flutter.embedding.engine.plugins.FlutterPlugin;
-import io.flutter.plugin.common.BinaryMessenger;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
+import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
@@ -24,7 +24,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 /**
  * PlainNotificationTokenPlugin
  */
-public class PlainNotificationTokenPlugin extends BroadcastReceiver implements MethodCallHandler, FlutterPlugin {
+public class PlainNotificationTokenPlugin extends BroadcastReceiver implements FlutterPlugin, MethodCallHandler {
     private Context context;
     private MethodChannel methodChannel;
     
@@ -35,12 +35,12 @@ public class PlainNotificationTokenPlugin extends BroadcastReceiver implements M
     }
 
     @Override
-    public void onAttachedToEngine(FlutterPluginBinding binding) {   
+    public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
         onAttached(binding.getApplicationContext(), binding.getBinaryMessenger());
     }
 
     @Override
-    public void onDetachedFromEngine(FlutterPluginBinding binding) {
+    public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
         context = null;
         methodChannel.setMethodCallHandler(null);
         methodChannel = null;
@@ -64,7 +64,7 @@ public class PlainNotificationTokenPlugin extends BroadcastReceiver implements M
     }
 
     @Override
-    public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
+    public void onMethodCall(final @NonNull MethodCall call, final @NonNull Result result) {
         if (call.method.equals("getToken")) {
             FirebaseInstanceId.getInstance()
                     .getInstanceId()
