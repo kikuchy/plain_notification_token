@@ -13,10 +13,10 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _pushToken = 'Unknown';
-  IosNotificationSettings _settings;
+  IosNotificationSettings? _settings;
 
-  StreamSubscription onTokenRefreshSubscription;
-  StreamSubscription onIosSubscription;
+  late StreamSubscription onTokenRefreshSubscription;
+  late StreamSubscription onIosSubscription;
 
   @override
   void initState() {
@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
           builder: (context) => FloatingActionButton(
                 child: Icon(Icons.search),
                 onPressed: () async {
-                  String token;
+                  late String? token;
                   // Platform messages may fail, so we use a try/catch PlatformException.
                   try {
                     token = await PlainNotificationToken().getToken();
