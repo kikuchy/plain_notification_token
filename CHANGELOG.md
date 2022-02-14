@@ -1,3 +1,7 @@
+## 0.0.3
+
+* V2 Android Embedding support
+
 ## 0.0.2
 
 * Bug fix
