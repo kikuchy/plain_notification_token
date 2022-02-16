@@ -1,6 +1,6 @@
 name: plain_notification_token
 description: Get your push notification token via platform way (APNs for iOS &#x2F; Firebase Clound Messaging for Android)
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/kikuchy/plain_notification_token
 
 environment:

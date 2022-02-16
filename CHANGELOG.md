@@ -1,3 +1,8 @@
+## 0.0.4
+
+* Support Flutter 2.10
+  * Dependencies update
+
 ## 0.0.3
 
 * V2 Android Embedding support
