@@ -14,9 +14,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/plain_notification_token/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  plain_notification_token: b36467dc91939a7b6754267c701bbaca14996ee1
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  plain_notification_token: 5f09a5eea6adf518c7c5a884d4aa0d68561e8857
 
 PODFILE CHECKSUM: 8e679eca47255a8ca8067c4c67aab20e64cb974d
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.16.2
