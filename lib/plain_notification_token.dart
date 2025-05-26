@@ -88,7 +88,7 @@ class IosNotificationSettings {
         badge = settings['badge']!;
 
   @visibleForTesting
-  Map<String, dynamic?> toMap() {
+  Map<String, dynamic> toMap() {
     return <String, bool?>{'sound': sound, 'alert': alert, 'badge': badge};
   }
 

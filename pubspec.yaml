@@ -4,17 +4,18 @@ version: 0.0.4
 homepage: https://github.com/kikuchy/plain_notification_token
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.12.0 <4.0.0"
   flutter: ">=1.12.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  platform: ^3.1.0
+  platform: ^3.1.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
