@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:plain_notification_token/plain_notification_token.dart';
 
 void main() => runApp(const MyApp());
